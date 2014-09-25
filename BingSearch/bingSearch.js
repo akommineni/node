@@ -1,5 +1,6 @@
 if (process.argv.length < 3){
-  console.write('Usage bingSearch <search string>')
+  console.log('Usage bingSearch <search string> [<skip>]');
+  return;
 }
 
 var query = process.argv[2];
@@ -25,6 +26,7 @@ request.get({
     Query   : "'" + query + "'", // the single quotes are required!
     Adult   : "'" + 'Off' + "'",
     $skip   : skip,
+    $top    :100,
   }
 }, function(err, response, body) {
   if (err)
@@ -48,13 +50,14 @@ request.get({
         console.log ('Error creating folder ' + query);
       }
 
+      var downloadCount = 0;
       for (var i=0; i< results.d.results.length;i++){
         //console.log(results.d.results[i].MediaUrl);
         var ud = require('./urlDownload');
-        var downloadCount = 0;
+        
         ud(results.d.results[i].MediaUrl, query, function(data){
-          console.log (data);
           downloadCount = downloadCount + 1;
+          console.log (downloadCount + data);
           if (downloadCount === results.d.results.length){
             console.log('****************ALL DONE***********************');
           }

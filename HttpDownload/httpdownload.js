@@ -42,7 +42,7 @@ for (var i=start;i<=end;i++){
 			wr.end();			
 		}));
 
-	}).on('errro', function(err){
+	}).on('error', function(err){
 		console.log (err);
 	});
 	
